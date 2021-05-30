@@ -1,4 +1,4 @@
-import { LightningElement,wire  } from 'lwc';
+import { LightningElement,wire, track  } from 'lwc';
 import fetchData from '@salesforce/apex/TaskController.fetchData';
 import { createRecord } from 'lightning/uiRecordApi';
 import TASK_CUSTOM_OBJECT from '@salesforce/schema/Task_Custom__c';
@@ -8,6 +8,11 @@ import DESCRIPTION_FIELD from '@salesforce/schema/Task_Custom__c.Description__c'
 export default class ToDoList extends LightningElement {
 
     taskCustomId;
+    @track tasks =[];
+    @track newTask;
+    // @track initialTasks;
+    isLoading;
+    error;
     name;
     description;
     onNameChange(event) {
@@ -16,11 +21,33 @@ export default class ToDoList extends LightningElement {
     onDescChange(event) {
         this.description = event.target.value;
     }
-    @wire(fetchData) tasks;
+    // @wire(fetchData)
+    // //I don't know why I cannot access initialTasks
+    // initialTasks;
 
-    connectedCallback() {
+    // connectedCallback() {
+    //     debugger;
+    //     tasks=this.initialTasks.data;
+    // }
 
-    }
+    @wire(fetchData)
+    //I don't know why I cannot access initialTasks
+    wiredTaskss(result) {
+        if (result.data && !this.tasks.length) {
+            this.tasks = result.data;
+        }
+        if (result.error) {
+          this.error = result.error;
+          this.tasks = undefined;
+        }
+        this.isLoading = false;
+        // this.notifyLoading(this.isLoading);
+      }
+
+    // connectedCallback() {
+    //     debugger;
+    //     this.tasks=this.initialTasks;
+    // }
 
 
     
@@ -29,11 +56,19 @@ export default class ToDoList extends LightningElement {
             apiName: TASK_CUSTOM_OBJECT.objectApiName,
             fields: { 
                 [NAME_FIELD.fieldApiName]: this.name, 
+                [DESCRIPTION_FIELD.fieldApiName]: this.description 
             }
         };
         createRecord(recordInput)
             .then(taskCustom => {
                 this.taskCustomId = taskCustom.id;
+                // this.newTask = recordInput;
+                this.newTask = {Id: taskCustom.id, 
+                                [NAME_FIELD.fieldApiName]: recordInput.fields.Name,
+                                [DESCRIPTION_FIELD.fieldApiName]: recordInput.fields.Description__c};
+                debugger;
+                this.tasks = [...this.tasks, this.newTask];
+                debugger;
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Success',
@@ -45,6 +80,7 @@ export default class ToDoList extends LightningElement {
             .catch(error => {
                 // Handle error. Details in error.message.
             });
+        
     }
 
 

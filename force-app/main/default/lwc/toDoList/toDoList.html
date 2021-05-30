@@ -17,8 +17,8 @@
             </lightning-layout-item>
         </lightning-layout>
     </div>
-    <template if:true={tasks.data}>
-        <template for:each={tasks.data} for:item="task">
+    <template if:true={tasks}>
+        <template for:each={tasks} for:item="task">
             <div class="todo-wrapper" key={task.Id}>
                 <div class="text">
                     <lightning-input type="text" placeholder="Enter new task" variant="label-hidden" label="New Task"
