@@ -1,0 +1,12 @@
+<template>
+    <c-to-do-list-input oninputtask={handleInputTask}></c-to-do-list-input>
+    <template if:true={tasks}>
+        <template for:each={tasks} for:item="task">
+            <div class="todo-wrapper" key={task.Id} >
+                <c-to-do-list-display task={task}  onupdatetask = {handleUpdate} ongettaskid = {handleTaskReturn}></c-to-do-list-display>
+            </div>
+        </template>
+    </template>
+
+
+</template>

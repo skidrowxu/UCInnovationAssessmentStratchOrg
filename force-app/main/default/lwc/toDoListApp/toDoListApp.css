@@ -1,0 +1,7 @@
+.todo-wrapper{
+    width: 100%;
+    padding: 5px 5px 10px 5px;
+    border: 5px solid black;
+    display: grid;
+    grid-template-columns: 50% 50%;
+}

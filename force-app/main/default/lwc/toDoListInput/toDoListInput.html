@@ -21,30 +21,4 @@
             </lightning-layout-item>
         </lightning-layout>
     </div>
-    <template if:true={tasks}>
-        <template for:each={tasks} for:item="task">
-            <div class="todo-wrapper" key={task.Id} >
-                <div class="text">
-                    <lightning-input type="text" class={task.completeStatus} data-record-id={task.Id}  variant="label-hidden" label="Task" onchange={onNameUpdate}
-                        value={task.Name} >
-                    </lightning-input>
-                    <lightning-input type="text" class={task.completeStatus} data-record-id={task.Id}  variant="label-hidden" label="Description" onchange={onDescUpdate}
-                        value={task.Description__c} >
-                    </lightning-input>
-                </div>
-                <div class="buttons">
-                    <lightning-button variant="brand" label="Update" onclick={updateTaskCustom}>
-                    </lightning-button>
-                    <lightning-button variant="brand" label="Complete" onclick={completeTaskCustom}  data-complete-status={task.Completed__c} data-record-id={task.Id}>
-                    </lightning-button>
-                    <lightning-button variant="brand" label="Delete" onclick={deleteTaskCustom}>
-                    </lightning-button>
-                    
-                </div>
-
-            </div>
-        </template>
-    </template>
-
-
 </template>
