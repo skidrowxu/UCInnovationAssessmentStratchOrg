@@ -5,5 +5,5 @@
     <externalId>false</externalId>
     <label>Completed</label>
     <trackTrending>false</trackTrending>
-    <type>Checkbox</type>
+    <type>Checkbox</type> 
 </CustomField>
